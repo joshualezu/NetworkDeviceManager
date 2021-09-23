@@ -15,7 +15,7 @@ import os
 import json
 from django.core.exceptions import ImproperlyConfigured
 
-with open('../secrets.json') as secrets_file:
+with open('./secrets.json') as secrets_file:
     secrets = json.load(secrets_file)
 
 def get_secret(setting, secrets=secrets):
