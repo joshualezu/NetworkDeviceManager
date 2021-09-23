@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+{% load tz %}
+
+
+   <div class="row my-5" style="width:90%; margin:auto;">
+       <div class="col-md-auto">
+           <h1>Device Dashboard</h1>
+           <p class="alert alert-info">
+               <b>Quick Status: </b>
+               <b>{{ offline.count }}</b> of {{ paginator.count }} devices registered are offline.
+           </p>
+       </div>     
+   </div>
+
+ 
+
+  <table class="table table-striped" style="width:90%; margin:auto;">
+    <tr>
+        <th>IP</th>
+        <th>Hostname</th>
+        <th>Model</th>
+        <th>Pingable</th>
+        <th>Last Pinged</th>
+        <th>Last Updated</th>
+    </tr>
+
+    {% for device in object_list %}
+    <tr {% if device.pingable == False %} class="table-danger"{% endif %}>
+        <td><a href="{{ device.get_absolute_url }}">{{ device.ip }}</a></td>
+        <td>{{ device.hostname }}</td>
+        <td>{{ device.device_model }}</td>
+        <td>{{ device.pingable }}</td>
+        <td>{{ device.last_ping|timezone:"America/Chicago" }} CST</td>
+        <td>{{ device.updated|timezone:"America/Chicago" }} CST</td>
+    </tr>    
+  {% endfor %}
+  </table>
+    {% if page_obj %}
+    <div class="row my-3" style="width:90%; margin:auto;">
+    <div class="pagination container-flud">
+    <span class="step-links" style="margin:auto;">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="link-dark">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="link-dark">Previous</a>
+        {% endif %}
+
+        <span class="current fw-bold">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="link-dark">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="link-dark">Last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+    {% endif %}
+
+    {% if not object_list %}
+    <div class="row mb-5 mt-5" style="width:90%; margin:auto;">
+        <h3 class="text-center">No devices found{% if query %} for search "{{ query }}"{% endif %}</h3>
+    </div>
+    {% endif %}
+{% endblock %}

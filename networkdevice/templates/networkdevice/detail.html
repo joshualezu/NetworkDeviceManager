@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Device Detail - {{ device.ip }}{% endblock %}
+{% block content %}
+<div class="text-center mt-3">
+    <h3 class="border-bottom pb-3">Device Detail</h3>
+
+</div>
+    <table class="table" style="width:60%; margin:auto;">
+        <tr>
+            <th scope="row">IP Address</th>
+            <td>{{ device.ip }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Hostname</th>
+            <td>{{ device.hostname }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Model</th>
+            <td>{{ device.device_model }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Pingable</th>
+            <td>{{ device.pingable }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Last Ping</th>
+            <td>{{ device.last_ping }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Device Information Last Updated</th>
+            <td>{{ device.updated }}</td>
+        </tr>
+        <tr>
+            <th scope="row">User Notes</th>
+            <td>{{ device.note }}</td>
+        </tr>
+        {% if device.serial_1 %}
+        <tr>
+            <th scope="row">Serial Number 1:</th>
+            <td>{{ device.serial_1 }}</td>
+        </tr>
+        {% endif %}
+        {% if device.serial_2 %}
+        <tr>
+            <th scope="row">Serial Number 2:</th>
+            <td>{{ device.serial_2 }}</td>
+        </tr>
+        {% endif %}
+        {% if device.serial_3 %}
+        <tr>
+            <th scope="row">Serial Number 3:</th>
+            <td>{{ device.serial_3 }}</td>
+        </tr>
+        {% endif %}
+        {% if device.serial_4 %}
+        <tr>
+            <th scope="row">Serial Number 4:</th>
+            <td>{{ device.serial_4 }}</td>
+        </tr>
+        {% endif %}
+        {% if device.serial_5 %}
+        <tr>
+            <th scope="row">Serial Number 5:</th>
+            <td>{{ device.serial_5 }}</td>
+        </tr>
+        {% endif %}
+        {% if device.serial_6 %}
+        <tr>
+            <th scope="row">Serial Number 6:</th>
+            <td>{{ device.serial_6 }}</td>
+        </tr>
+        {% endif %}
+        {% if device.serial_7 %}
+        <tr>
+            <th scope="row">Serial Number 7:</th>
+            <td>{{ device.serial_7 }}</td>
+        </tr>
+        {% endif %}
+        {% if device.serial_8 %}
+        <tr>
+            <th scope="row">Serial Number 8:</th>
+            <td>{{ device.serial_8 }}</td>
+        </tr>
+        {% endif %}
+        {% if device.serial_9 %}
+        <tr>
+            <th scope="row">Serial Number 9:</th>
+            <td>{{ device.serial_9 }}</td>
+        </tr>
+        {% endif %}
+
+    </table>
+    <div class="text-center mt-5 ">
+        <a href="{% url 'edit_device' device.pk %}" class="text-decoration-none">
+        <input type="button" class="btn btn-lg btn-primary" value="Edit Device">
+        </a>
+
+        <a href="{% url 'delete_device' device.pk %}">
+        <input type="button" class="btn btn-lg btn-danger" value="Delete Device">
+        </a>
+    </div>
+{% endblock %}

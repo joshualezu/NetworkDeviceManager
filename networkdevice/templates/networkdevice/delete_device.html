@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Delete Device{% endblock %}
+{% block content %}
+
+<div class="text-center mt-5">
+    <h3>Delete {{ networkdevice.hostname }}?</h3>
+    <p>Are you sure you want to delete the following device? This action cannot be undone!</p>
+    
+    Hostname: {{ networkdevice.hostname|upper }}<br>
+    IP Address: {{ networkdevice.ip }}<br>
+    <br />
+    <p><a href="{% url 'device_detail' networkdevice.pk networkdevice.ip %}">Return to device detail</a></p>
+    
+    <form method="POST" form style="max-width:30%;margin:auto;" class="form-inline text-start">
+        {% csrf_token %}
+        <div class="d-grid gap-2">
+            <input type="submit" class="btn btn-lg btn-danger" value="Delete Device">
+        </div>
+    </form>
+  
+  </div>
+{% endblock %}
