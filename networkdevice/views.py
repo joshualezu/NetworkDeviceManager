@@ -1,8 +1,6 @@
-from django.http.response import HttpResponse, HttpResponseRedirect
+from django.views.generic import UpdateView, DeleteView, ListView, DetailView
 from django.shortcuts import render, get_object_or_404
-from django.views.generic.detail import DetailView
 from .models import NetworkDevice
-from django.views.generic import UpdateView, DeleteView, ListView
 from .forms import EditDeviceForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -10,9 +8,11 @@ from django.contrib.postgres.search import SearchVector
 
 app_name = 'networkdevice'
 
+# View for device dashboard
+# Main view
 class DeviceDashboardView(LoginRequiredMixin, ListView):
     login_url = 'login'
-    template_name = 'networkdevice/devicedashboard.html'
+    template_name = 'networkdevice/device_dashboard.html'
     model = NetworkDevice
     paginate_by = 10
 
@@ -21,7 +21,36 @@ class DeviceDashboardView(LoginRequiredMixin, ListView):
         data['offline'] = NetworkDevice.objects.all().filter(pingable=False)
         return data
 
+# View displays device serial numbers in table
+class DeviceInventoryView(LoginRequiredMixin, ListView):
+    login_url = 'login'
+    template_name = 'networkdevice/inventory_view.html'
+    model = NetworkDevice
+    paginate_by = 10
 
+    # IF query passed, return results
+    # Otherwise, show all objects
+    def get_queryset(self):
+        object_list = NetworkDevice.objects.all()
+        query = self.request.GET.get('inventorysearch', '')
+        if query:
+            object_list = NetworkDevice.objects.annotate(search=SearchVector(
+                'ip',
+                'hostname',
+                'serial_1',
+                'serial_2',
+                'serial_3',
+                'serial_4',
+                'serial_5',
+                'serial_6',
+                'serial_7',
+                'serial_8',
+                'serial_9',
+                'pingable'
+            ),).filter(search__icontains=query)
+        return object_list
+
+# Provides view for navbar search
 class DeviceSearchView(LoginRequiredMixin, ListView):
     login_url = 'login'
     template_name = 'networkdevice/device_search.html'
@@ -53,6 +82,7 @@ class DeviceSearchView(LoginRequiredMixin, ListView):
             ),).filter(search__icontains=query)
         return object_list
 
+# View for specfic device
 class DeviceDetailView(LoginRequiredMixin, DetailView):
     login_url = 'login'
     def get(self,request,*args,**kwargs):
@@ -60,12 +90,14 @@ class DeviceDetailView(LoginRequiredMixin, DetailView):
         context = {'device':device}
         return render(request, 'networkdevice/detail.html', context)
 
+# View to update device information
 class UpdateDeviceView(LoginRequiredMixin, UpdateView):
     login_url = 'login'
     model = NetworkDevice
     form_class = EditDeviceForm
     template_name = 'networkdevice/edit_device.html'
 
+# Confirm deletion of device
 class DeleteDeviceView(LoginRequiredMixin, DeleteView):
     login_url = 'login'
     model = NetworkDevice
