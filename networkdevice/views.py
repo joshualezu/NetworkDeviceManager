@@ -14,7 +14,7 @@ class DeviceDashboardView(LoginRequiredMixin, ListView):
     login_url = 'login'
     template_name = 'networkdevice/device_dashboard.html'
     model = NetworkDevice
-    paginate_by = 10
+    paginate_by = 25
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -26,7 +26,7 @@ class DeviceInventoryView(LoginRequiredMixin, ListView):
     login_url = 'login'
     template_name = 'networkdevice/inventory_view.html'
     model = NetworkDevice
-    paginate_by = 10
+    paginate_by = 25
 
     # IF query passed, return results
     # Otherwise, show all objects
@@ -55,7 +55,7 @@ class DeviceSearchView(LoginRequiredMixin, ListView):
     login_url = 'login'
     template_name = 'networkdevice/device_search.html'
     model = NetworkDevice
-    paginate_by = 10
+    paginate_by = 25
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -103,4 +103,3 @@ class DeleteDeviceView(LoginRequiredMixin, DeleteView):
     model = NetworkDevice
     template_name = 'networkdevice/delete_device.html'
     success_url = reverse_lazy('device_dashboard')
-
