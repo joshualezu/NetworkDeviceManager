@@ -11,10 +11,10 @@
                <b>Quick Status: </b>
                <b>{{ offline.count }}</b> of {{ paginator.count }} devices registered are offline.
            </p>
-       </div>     
+       </div>
    </div>
 
- 
+
 
   <table class="table table-striped" style="width:90%; margin:auto;">
     <tr>
@@ -29,12 +29,12 @@
     {% for device in object_list %}
     <tr {% if device.pingable == False %} class="table-danger"{% endif %}>
         <td><a href="{{ device.get_absolute_url }}">{{ device.ip }}</a></td>
-        <td>{{ device.hostname }}</td>
-        <td>{{ device.device_model }}</td>
-        <td>{{ device.pingable }}</td>
+        <td>{{ device.hostname|upper }}</td>
+        <td>{{ device.device_model|upper }}</td>
+        <td>{{ device.pingable|yesno:"Pingable,Not Pingable,N/A" }}</td>
         <td>{{ device.last_ping|timezone:"America/Chicago" }} CST</td>
         <td>{{ device.updated|timezone:"America/Chicago" }} CST</td>
-    </tr>    
+    </tr>
   {% endfor %}
   </table>
     {% if page_obj %}
