@@ -18,6 +18,7 @@
         <th>IP</th>
         <th>Hostname</th>
         <th>Model</th>
+        <th>Version</th>
         <th>Pingable</th>
         <th>Last Pinged</th>
         <th>Last Updated</th>
@@ -28,6 +29,7 @@
         <td><a href="{{ device.get_absolute_url }}">{{ device.ip }}</a></td>
         <td>{{ device.hostname }}</td>
         <td>{{ device.device_model }}</td>
+        <td>{{ device.version }}</td>
         <td>{{ device.pingable }}</td>
         <td>{{ device.last_ping|timezone:"America/Chicago" }} CST</td>
         <td>{{ device.updated|timezone:"America/Chicago" }} CST</td>

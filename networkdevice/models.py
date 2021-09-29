@@ -26,8 +26,9 @@ class NetworkDevice(models.Model):
     note = models.CharField(max_length=100, blank=True, null=True, default=None)
     updated = models.DateTimeField(auto_now_add=True)
     configuration = models.TextField(blank=True, null=True, default=None)
+    version = models.CharField(max_length=50, blank=True, null=True, default=None)
 
-    
+
 
     def __str__(self):
         return self.hostname

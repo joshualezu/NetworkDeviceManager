@@ -77,7 +77,8 @@ class DeviceSearchView(LoginRequiredMixin, ListView):
                 'serial_7',
                 'serial_8',
                 'serial_9',
-                'pingable'
+                'pingable',
+                'version'
             ),).filter(search__icontains=query)
         return object_list
 
