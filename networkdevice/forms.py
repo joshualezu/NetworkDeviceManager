@@ -20,3 +20,12 @@ class EditDeviceForm(forms.ModelForm):
     class Meta:
         model = NetworkDevice
         fields = ('ip', 'hostname', 'device_model', 'note', 'serial_1', 'serial_2', 'serial_3', 'serial_4', 'serial_5', 'serial_6', 'serial_7', 'serial_8', 'serial_9')
+
+class CreateDeviceForm(forms.ModelForm):
+
+    ip = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'IP'}), label='')
+    hostname = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Hostname'}), label='')
+
+    class Meta:
+        model = NetworkDevice
+        fields = ('ip', 'hostname')

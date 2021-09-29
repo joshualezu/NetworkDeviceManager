@@ -27,9 +27,8 @@ class NetworkDevice(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
     configuration = models.TextField(blank=True, null=True, default=None)
 
-    class Meta:
-        ordering=('pingable', 'ip')
     
+
     def __str__(self):
         return self.hostname
 

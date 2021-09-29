@@ -45,6 +45,7 @@
         <span class="navbar-text">
           {% if request.user.is_authenticated %}
           <form class="d-flex" method="GET" action="{% url 'device_search' %}">
+            {% csrf_token %}
             <input class="form-control me-2" name="name" type="search" placeholder="Search" aria-label="Search" required>
             <button class="btn btn-primary" type="submit">Search</button>
           </form>
@@ -55,15 +56,15 @@
           <a href="{% url "login" %}">Login</a>
           {% endif %}
         </span>
-        
+
 
 
       </div>
     </nav>
 
-    
+
     {% block content %}
-    
+
     {% endblock %}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

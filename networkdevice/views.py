@@ -1,7 +1,7 @@
-from django.views.generic import UpdateView, DeleteView, ListView, DetailView
+from django.views.generic import UpdateView, DeleteView, ListView, DetailView, CreateView
 from django.shortcuts import render, get_object_or_404
 from .models import NetworkDevice
-from .forms import EditDeviceForm
+from .forms import EditDeviceForm, CreateDeviceForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib.postgres.search import SearchVector
@@ -14,7 +14,7 @@ class DeviceDashboardView(LoginRequiredMixin, ListView):
     login_url = 'login'
     template_name = 'networkdevice/device_dashboard.html'
     model = NetworkDevice
-    paginate_by = 25
+    ordering=['pingable', '-last_ping']
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -26,7 +26,7 @@ class DeviceInventoryView(LoginRequiredMixin, ListView):
     login_url = 'login'
     template_name = 'networkdevice/inventory_view.html'
     model = NetworkDevice
-    paginate_by = 25
+    ordering = ['ip']
 
     # IF query passed, return results
     # Otherwise, show all objects
@@ -55,7 +55,6 @@ class DeviceSearchView(LoginRequiredMixin, ListView):
     login_url = 'login'
     template_name = 'networkdevice/device_search.html'
     model = NetworkDevice
-    paginate_by = 25
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -103,3 +102,16 @@ class DeleteDeviceView(LoginRequiredMixin, DeleteView):
     model = NetworkDevice
     template_name = 'networkdevice/delete_device.html'
     success_url = reverse_lazy('device_dashboard')
+
+class CreateDeviceView(LoginRequiredMixin, CreateView):
+    login_url = 'login'
+    model = NetworkDevice
+    form_class = CreateDeviceForm
+    template_name = 'networkdevice/create_device.html'
+
+class DeviceConfigurationView(LoginRequiredMixin, DetailView):
+    login_url = 'login'
+    def get(self,request,*args,**kwargs):
+        device = get_object_or_404(NetworkDevice, ip = kwargs['ip'])
+        context = {'device':device}
+        return render(request, 'networkdevice/configuration.html', context)

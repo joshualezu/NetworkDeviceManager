@@ -2,21 +2,16 @@
 {% block title %}Device Search{% endblock %}
 {% block content %}
 {% load tz %}
- <form class="form-inline" method="GET" action="{% url 'device_search' %}">
-     {% csrf_token %}
-    <div class="row mb-4 mt-5" style="width:90%; margin:auto;">
-        <div class="col-sm-6">
-            <h1>Device Search</h1>
-            <p>{{ paginator.count }} devices found for search "{{ query }}".</p>
-        </div>
-        <div class="col-sm-4">
-            <input class="form-control mr-sm-2" name="name" type="search" placeholder="Search" aria-label="Search">
-        </div>
-        <div class="col-sm-2">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </div>        
-    </div>
-  </form>
+
+  <div class="row my-5" style="width:90%; margin:auto;">
+      <div class="col-md-auto">
+          <h1>Device Search</h1>
+          <p class="alert alert-info">
+              <b>Search status: </b>
+              {{ object_list.count }} devices found for search "{{ query }}".
+          </p>
+      </div>
+  </div>
 
   <table class="table table-striped" style="width:90%; margin:auto;">
     <tr>
@@ -36,29 +31,9 @@
         <td>{{ device.pingable }}</td>
         <td>{{ device.last_ping|timezone:"America/Chicago" }} CST</td>
         <td>{{ device.updated|timezone:"America/Chicago" }} CST</td>
-    </tr>    
+    </tr>
   {% endfor %}
   </table>
-    {% if page_obj %}
-    <div class="row my-3" style="width:90%; margin:auto;">
-    <div class="pagination container-flud">
-    <span class="step-links" style="margin:auto;">
-        {% if page_obj.has_previous %}
-            <a href="?page=1" class="link-dark">&laquo; First</a>
-            <a href="?page={{ page_obj.previous_page_number }}" class="link-dark">Previous</a>
-        {% endif %}
-
-        <span class="current fw-bold">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="link-dark">Next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}" class="link-dark">Last &raquo;</a>
-        {% endif %}
-    </span>
-    </div>
-    {% endif %}
 
     {% if not object_list %}
     <div class="row mb-5 mt-5" style="width:90%; margin:auto;">

@@ -3,15 +3,39 @@
 {% block content %}
 {% load tz %}
 
+<meta http-equiv="refresh" content="30">
 
-   <div class="row my-5" style="width:90%; margin:auto;">
+  <div class="row mt-5" style="width:90%; margin:auto;">
+    <div class = "col-md-auto">
+      <h1>Device Dashboard</h1>
+    </div>
+    </div>
+
+   <div class="row mb-2" style="width:90%; margin:auto;">
        <div class="col-md-auto">
-           <h1>Device Dashboard</h1>
-           <p class="alert alert-info">
-               <b>Quick Status: </b>
-               <b>{{ offline.count }}</b> of {{ paginator.count }} devices registered are offline.
-           </p>
+           <div class="alert alert-warning">
+               <h4 class="alert-heading">Quick Status</h4>
+               <b>{{ offline.count }}</b> of {{ object_list.count }} devices registered are offline.
+          </div>
+        </div>
+        <div class="col-md-auto">
+          <div class="alert alert-info" role="alert">
+              <h4 class="alert-heading">Info</h4>
+               If a device is not listed here, you may <a href="{% url 'create_device' %}" class="link-dark">add new device to be scanned.</a>
+           </div>
        </div>
+
+         {% if request.user.username == 'kirkpatrick' %}
+         <div class="col-md-auto">
+           <div class="alert alert-info" role="alert">
+               <h4 class="alert-heading">Info</h4>
+                User Robert kirkpatrick likes bois.
+            </div>
+
+           </div>
+
+         {% endif %}
+
    </div>
 
 
@@ -37,26 +61,7 @@
     </tr>
   {% endfor %}
   </table>
-    {% if page_obj %}
-    <div class="row my-3" style="width:90%; margin:auto;">
-    <div class="pagination container-flud">
-    <span class="step-links" style="margin:auto;">
-        {% if page_obj.has_previous %}
-            <a href="?page=1" class="link-dark">&laquo; First</a>
-            <a href="?page={{ page_obj.previous_page_number }}" class="link-dark">Previous</a>
-        {% endif %}
 
-        <span class="current fw-bold">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="link-dark">Next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}" class="link-dark">Last &raquo;</a>
-        {% endif %}
-    </span>
-    </div>
-    {% endif %}
 
     {% if not object_list %}
     <div class="row mb-5 mt-5" style="width:90%; margin:auto;">

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Edit Device{% endblock %}
+{% block content %}
+
+<div class="text-center mt-5">
+    <h1>Add New Device</h1>
+    <p class="alert alert-info">
+        Adding devices here will allow them to be scanned. Any information about the devices will be automatically updated. 
+    </p>
+
+    <form method="POST" form style="max-width:50%;margin:auto;" class="form-inline text-start">
+        {% csrf_token %}
+
+    <div class="row mb-3">
+      <label for="ip" class="col-sm-2 col-form-label">IP Address</label>
+      <div class="col-sm-10">
+        {{ form.ip }}
+        {{ form.ip.errors }}
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="hostname" class="col-sm-2 col-form-label">Hostname</label>
+      <div class="col-sm-10">
+        {{ form.hostname }}
+      </div>
+    </div>
+
+    <div class="d-grid gap-2">
+    <input type="submit" class="btn btn-lg btn-primary" value="Add Device">
+    </div>
+
+    </form>
+
+  </div>
+{% endblock %}
