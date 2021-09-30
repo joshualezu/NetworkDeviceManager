@@ -5,6 +5,8 @@ from .forms import EditDeviceForm, CreateDeviceForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib.postgres.search import SearchVector
+from django.db.models import Q
+
 
 app_name = 'networkdevice'
 
@@ -116,3 +118,16 @@ class DeviceConfigurationView(LoginRequiredMixin, DetailView):
         device = get_object_or_404(NetworkDevice, ip = kwargs['ip'])
         context = {'device':device}
         return render(request, 'networkdevice/configuration.html', context)
+
+
+class DeviceIssueView(LoginRequiredMixin, ListView):
+    login_url = 'login'
+    template_name = 'networkdevice/device_issues.html'
+    model = NetworkDevice
+
+    def get_queryset(self):
+        object_list = ''
+        object_list = NetworkDevice.objects.filter(
+        Q(version='') | Q(version=None) | Q(pingable=False) | Q(serial_1=None) | Q(serial_1='')
+        )
+        return object_list

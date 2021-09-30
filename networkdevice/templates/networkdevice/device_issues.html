@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Device Issue List{% endblock %}
+{% block content %}
+{% load tz %}
+
+  <div class="row my-5" style="width:90%; margin:auto;">
+      <div class="col-md-auto">
+          <h1>Network Device Issue List</h1>
+          <div class="alert alert-danger" role="alert">
+              <h4 class="alert-heading">Issues found!</h4>
+              {{ object_list.count }} devices found with issues!
+              <hr>
+              These devices are offline or otherwise could not be logged into to retrieve data from.
+          </div>
+      </div>
+  </div>
+
+  <table class="table table-striped" style="width:90%; margin:auto;">
+    <tr>
+        <th>IP</th>
+        <th>Hostname</th>
+        <th>Model</th>
+        <th>Version</th>
+        <th>Pingable</th>
+        <th>Last Pinged</th>
+        <th>Last Updated</th>
+    </tr>
+
+    {% for device in object_list %}
+    <tr {% if device.pingable == False %} class="table-danger"{% endif %}>
+        <td><a href="{{ device.get_absolute_url }}">{{ device.ip }}</a></td>
+        <td>{{ device.hostname }}</td>
+        <td>{{ device.device_model }}</td>
+        <td>{{ device.version }}</td>
+        <td>{{ device.pingable }}</td>
+        <td>{{ device.last_ping|timezone:"America/Chicago" }} CST</td>
+        <td>{{ device.updated|timezone:"America/Chicago" }} CST</td>
+    </tr>
+  {% endfor %}
+  </table>
+
+    {% if not object_list %}
+    <div class="row mb-5 mt-5" style="width:90%; margin:auto;">
+        <h3 class="text-center">No devices found with issues!</h3>
+    </div>
+    {% endif %}
+{% endblock %}

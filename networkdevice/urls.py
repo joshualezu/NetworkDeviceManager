@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import DeleteDeviceView, DeviceDetailView, DeviceInventoryView, UpdateDeviceView,DeviceDashboardView,DeviceSearchView,CreateDeviceView,DeviceConfigurationView
+from .views import DeleteDeviceView, DeviceDetailView, DeviceInventoryView, UpdateDeviceView,DeviceDashboardView,DeviceSearchView,CreateDeviceView,DeviceConfigurationView,DeviceIssueView
 
 urlpatterns = [
     path('', DeviceDashboardView.as_view(), name='device_dashboard'),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('device_search/', DeviceSearchView.as_view(), name='device_search'),
     path('create_device/', CreateDeviceView.as_view(), name='create_device'),
     path('device/config/<str:ip>/', DeviceConfigurationView.as_view(), name='device_configuration'),
+    path('device/issue_list/', DeviceIssueView.as_view(), name='device_issues'),
 ]
